@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-audit-logs-model
+      author: mark
+      changes:
+        - createTable:
+            tableName: audit_logs
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: uuid
+              - column:
+                  name: action
+                  type: varchar(100)
+              - column:
+                  name: details
+                  type: text
+              - column:
+                  name: created_at
+                  type: timestamp
+        - createIndex:
+            tableName: audit_logs
+            indexName: idx_audit_user_created
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: created_at
