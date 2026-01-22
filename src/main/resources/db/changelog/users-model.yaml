@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-model
+      author: mark
+      changes:
+        - createTable:
+            tableName: app_users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: keycloak_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: full_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: profile_picture
+                  type: varchar(512)
+              - column:
+                  name: privacy_accepted_at
+                  type: timestamp
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+              - column:
+                  name: deleted_at
+                  type: timestamp
+              - column:
+                  name: anonymized
+                  type: boolean
+                  defaultValueBoolean: false
+        - createIndex:
+            tableName: app_users
+            indexName: idx_users_keycloak_id
+            unique: true
+            columns:
+              - column:
+                  name: keycloak_id
+        - createIndex:
+            tableName: app_users
+            indexName: idx_users_email
+            unique: true
+            columns:
+              - column:
+                  name: email
