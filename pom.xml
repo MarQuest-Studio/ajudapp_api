@@ -59,6 +59,11 @@
 			<artifactId>s3</artifactId>
 			<version>2.41.5</version>
 		</dependency>
+		<dependency>
+			<groupId>net.lbruun.springboot</groupId>
+			<artifactId>preliquibase-spring-boot-starter</artifactId>
+			<version>1.6.1</version>
+		</dependency>
 
 
 

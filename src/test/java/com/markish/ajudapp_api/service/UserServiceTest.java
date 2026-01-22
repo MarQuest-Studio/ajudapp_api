@@ -236,12 +236,6 @@ class UserServiceTest {
     @Test
     void testUpdateIfNeededWhenEmailChanges() {
         // Arrange
-        KeycloakUser updatedKeycloakUser = new KeycloakUser(
-                "keycloak-123",
-                "newemail@example.com",
-                "Test User",
-                Set.of("user")
-        );
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(extractor.extract(any())).thenReturn(testKeycloakUser);
 
@@ -272,6 +266,7 @@ class UserServiceTest {
 
         // Assert
         verify(auditLogService).log(any(User.class), eq("UPDATE_FROM_KEYCLOAK"), anyString());
+        assertThat(result.getFullName()).isEqualTo("New Name");
     }
 
     @Test
@@ -286,6 +281,7 @@ class UserServiceTest {
         // Assert
         verify(userRepository, never()).save(any());
         verify(auditLogService, never()).log(any(), anyString(), anyString());
+        assertThat(result).isNotNull();
     }
 
     @Test

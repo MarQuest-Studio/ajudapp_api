@@ -2,7 +2,6 @@ package com.markish.ajudapp_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(properties = {
 		"b2.s3.endpoint=https://fake.endpoint",

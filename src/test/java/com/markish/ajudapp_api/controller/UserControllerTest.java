@@ -1,5 +1,6 @@
 package com.markish.ajudapp_api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.markish.ajudapp_api.model.UserResponse;
 import com.markish.ajudapp_api.model.UserSettingsUpdateRequest;
 import com.markish.ajudapp_api.service.UserService;
@@ -80,7 +81,7 @@ class UserControllerTest {
         UserSettingsUpdateRequest request = new UserSettingsUpdateRequest(true);
         when(userService.updateSettings(any(UserSettingsUpdateRequest.class))).thenReturn(testUserResponse);
 
-        String requestBody = "{\"notificationsEnabled\": true}";
+        String requestBody = new ObjectMapper().writeValueAsString(request);
 
         // Act & Assert
         mockMvc.perform(put("/api/user/settings").with(jwt())
@@ -98,7 +99,7 @@ class UserControllerTest {
         UserSettingsUpdateRequest request = new UserSettingsUpdateRequest(false);
         when(userService.updateSettings(any(UserSettingsUpdateRequest.class))).thenReturn(testUserResponse);
 
-        String requestBody = "{\"notificationsEnabled\": false}";
+        String requestBody = new ObjectMapper().writeValueAsString(request);
 
         // Act & Assert
         mockMvc.perform(put("/api/user/settings").with(jwt())

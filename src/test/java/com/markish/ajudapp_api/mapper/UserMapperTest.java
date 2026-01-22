@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -144,8 +143,9 @@ class UserMapperTest {
         List<UserResponse> responses = userMapper.toResponseList(users);
 
         // Assert
-        assertThat(responses).isNotNull();
-        assertThat(responses).hasSize(2);
+        assertThat(responses)
+                .isNotNull()
+                .hasSize(2);
         assertThat(responses.get(0).id()).isEqualTo(user1.getId());
         assertThat(responses.get(0).email()).isEqualTo("user1@example.com");
         assertThat(responses.get(1).id()).isEqualTo(user2.getId());
@@ -170,8 +170,9 @@ class UserMapperTest {
         List<UserResponse> responses = userMapper.toResponseList(Arrays.asList());
 
         // Assert
-        assertThat(responses).isNotNull();
-        assertThat(responses).isEmpty();
+        assertThat(responses)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test
@@ -193,8 +194,9 @@ class UserMapperTest {
         List<UserResponse> responses = userMapper.toResponseList(users);
 
         // Assert
-        assertThat(responses).isNotNull();
-        assertThat(responses).hasSize(2); // null element filtered out
+        assertThat(responses)
+                .isNotNull()
+                .hasSize(2); // null element filtered out
     }
 
     @Test

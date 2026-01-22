@@ -1,6 +1,5 @@
 package com.markish.ajudapp_api.service;
 
-import com.markish.ajudapp_api.common.ApiConstants;
 import com.markish.ajudapp_api.entity.User;
 import com.markish.ajudapp_api.extractor.KeycloakUserExtractor;
 import com.markish.ajudapp_api.mapper.UserMapper;
@@ -15,10 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.presigner.S3Presigner;
-import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
-import java.time.Duration;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
@@ -129,7 +126,8 @@ public class UserService {
     }
 
 
-    public UserResponse uploadProfilePicture(MultipartFile file) {
+    @Transactional
+    public UserResponse uploadProfilePicture(MultipartFile file) throws IOException {
 
         Jwt jwt = getJwt();
         KeycloakUser keycloakUser = extractor.extract(jwt);

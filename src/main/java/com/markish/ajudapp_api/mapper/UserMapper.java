@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -33,15 +32,11 @@ public class UserMapper {
         );
     }
 
-    /**
-     * Maps a list of Users to a list of UserResponses.
-     * Returns null if input list is null.
-     */
     public List<UserResponse> toResponseList(List<User> users) {
-        if (users == null) return null;
+        if (users == null) return List.of();
         return users.stream()
                 .filter(Objects::nonNull)
                 .map(this::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

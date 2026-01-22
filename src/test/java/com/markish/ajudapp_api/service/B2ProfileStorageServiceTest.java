@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
@@ -29,7 +28,6 @@ import static com.markish.ajudapp_api.common.ApiConstants.ObjectStorage.PROFILES
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -118,8 +116,8 @@ class B2ProfileStorageServiceTest {
 
         // Act & Assert
         assertThatThrownBy(() -> storageService.upload(key, file))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("Failed to upload file");
+                .isInstanceOf(IOException.class)
+                .hasMessage("Upload failed");
     }
 
     @Test
@@ -182,8 +180,9 @@ class B2ProfileStorageServiceTest {
         String result = storageService.getProfileUrl(testUser);
 
         // Assert
-        assertThat(result).isNotNull();
-        assertThat(result).contains("https://presigned.com/file.jpg");
+        assertThat(result)
+                .isNotNull()
+                .contains("https://presigned.com/file.jpg");
     }
 
     @Test
