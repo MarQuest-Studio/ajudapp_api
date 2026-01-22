@@ -16,6 +16,16 @@ jobs:
       B2_S3_REGION: ${{ secrets.B2_S3_REGION }}
       B2_S3_SECRET_KEY: ${{ secrets.B2_S3_SECRET_KEY }}
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18.1
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     steps:
       - uses: actions/checkout@v4
         with:
