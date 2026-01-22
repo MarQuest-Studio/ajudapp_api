@@ -18,11 +18,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -208,6 +211,7 @@ class UserControllerTest {
         // Act & Assert
         mockMvc.perform(put("/api/user/settings")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
                 .content("{\"notificationsEnabled\": true}"))
                 .andExpect(status().isUnauthorized());
 
@@ -218,6 +222,7 @@ class UserControllerTest {
     void testDeleteMeRequiresAuthentication() throws Exception {
         // Act & Assert
         mockMvc.perform(delete("/api/user/me")
+                        .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
 
@@ -232,6 +237,7 @@ class UserControllerTest {
         // Act & Assert
         mockMvc.perform(multipart("/api/user/me/upload-picture")
                 .file(file)
+                .with(csrf())
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isUnauthorized());
 
@@ -320,6 +326,7 @@ class UserControllerTest {
 
         // Act & Assert
         mockMvc.perform(put("/api/user/settings")
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"notificationsEnabled\": true}"))
                 .andExpect(status().isOk())
