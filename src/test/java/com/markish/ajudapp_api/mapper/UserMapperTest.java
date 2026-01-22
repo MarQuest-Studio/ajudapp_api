@@ -161,13 +161,15 @@ class UserMapperTest {
         List<UserResponse> responses = userMapper.toResponseList(null);
 
         // Assert
-        assertThat(responses).isNull();
+        assertThat(responses)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test
     void testToResponseListWithEmptyList() {
         // Act
-        List<UserResponse> responses = userMapper.toResponseList(Arrays.asList());
+        List<UserResponse> responses = userMapper.toResponseList(List.of());
 
         // Assert
         assertThat(responses)
